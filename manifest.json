@@ -1,0 +1,23 @@
+{
+  "name": "youtube-shorts-toggle",
+  "description": "Youtube Shorts Toggle",
+  "version": "1.0",
+  "manifest_version": 3,
+  "content_scripts": [
+    {
+      "matches": ["https://*/*"],
+      "js": ["src/content/index.ts"]
+    }
+  ],
+  "background": {
+    "service_worker": "src/background/index.ts"
+  },
+  "options_ui": {
+    "page": "src/options/options.html",
+    "open_in_tab": false
+  },
+  "action": {
+    "default_popup": "src/popup/popup.html"
+  },
+  "permissions": ["storage", "tabs"]
+}
