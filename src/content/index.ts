@@ -1,20 +1,21 @@
-import { onMessage } from "src/message";
-import Overlay from "../components/Overlay.svelte";
+import { storage } from "src/storage";
 
-// Some global styles on the page
-// import "./styles.css";
+const styleID = 'youtube-shorts-toggle-style';
+const youtubeShortsSectionSelector = '[is-shorts]';
+const youtubeShortsSidebarButtonSelector = "#endpoint[title='Shorts']";
 
-// Some JS on the page
+function toggleShorts(hide: boolean) {
+    if (!hide) {
+        let addedStyle = document.getElementById(styleID);
+        if (addedStyle) addedStyle.remove();
+        return;
+    }
 
-// Some svelte component on the page
-new Overlay({ target: document.body });
+    const styleElement = document.createElement('style');
+    styleElement.id = styleID;
+    styleElement.innerHTML = `${youtubeShortsSectionSelector},${youtubeShortsSidebarButtonSelector} { display: none; }`;
+    document.head.appendChild(styleElement);
+}
 
-
-onMessage('test3', function (value, sendResponse) {
-    console.log(value);
-    sendResponse({
-        type: 'test1',
-        value: 5
-    });
-});
+storage.state.subscribe(state => toggleShorts(state.shortsVisible))
 

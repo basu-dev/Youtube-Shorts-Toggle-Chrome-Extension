@@ -2,11 +2,11 @@
 import { writable } from 'svelte/store';
 
 type IStorage = {
-    count: number;
+    shortsVisible: boolean;
 };
 
 const defaultStorage: IStorage = {
-    count: 0,
+    shortsVisible: true,
 };
 
 const _state = writable(defaultStorage);

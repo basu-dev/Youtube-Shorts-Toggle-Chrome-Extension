@@ -3,10 +3,8 @@ interface IMessage<TType extends string, TValue> {
     value: TValue;
 }
 
-export type Message =
-    IMessage<'test', string> |
-    IMessage<'test1', number> |
-    IMessage<'test3', { value: number; }>
+export type Message = IMessage<'hideShorts', boolean> |
+    IMessage<'log', any>
     ;
 
 export type MessageType = Message['type'];
