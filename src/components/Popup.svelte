@@ -11,11 +11,19 @@
 </script>
 
 <div class="container">
-  <h3>Hide Youtube Shorts</h3>
-  <input {checked} on:change={toggleChange} id="chck" type="checkbox" />
-  <label for="chck" class="check-trail">
-    <span class="check-handler" />
-  </label>
+  <div class="flex-area">
+    <label for="chck">
+      <h3>Hide Youtube Shorts</h3>
+    </label>
+    <input {checked} on:change={toggleChange} id="chck" type="checkbox" />
+    <label for="chck" class="check-trail">
+      <span class="check-handler" />
+    </label>
+  </div>
+
+  <div class={checked ? "message" : "message visible"}>
+    Please reload the page if you don't see the shorts.
+  </div>
 </div>
 
 <style lang="scss">
@@ -26,19 +34,25 @@
   $midnight: #2c3e50;
   $transition: all 0.5s ease;
 
-  h3 {
-    font-size: 1.5em;
-    margin-right: 1em;
+  label {
+    cursor: pointer;
+    h3 {
+      font-size: 1.5em;
+      margin-right: 1em;
+    }
   }
 
   .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: $clouds;
     min-height: 100px;
     min-width: 300px;
     border-radius: 10px;
+    padding: 0.5rem 1rem;
+    background: $clouds;
+    .flex-area {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
   /* Hide the input */
   input[type="checkbox"] {
@@ -54,7 +68,6 @@
     background: $midnight;
     border-radius: 2.5em;
     transition: $transition;
-    cursor: pointer;
   }
   .check-handler {
     display: flex;
@@ -81,6 +94,28 @@
       background: $turquoise;
       &::before {
         content: "\2714";
+      }
+    }
+  }
+  .message {
+    position: relative;
+    font-size: 0.8rem;
+    margin-top: 0.3rem;
+    &:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      height: 100%;
+      width: 100%;
+      background: $clouds;
+      transform: scaleX(100%);
+      transform-origin: right;
+      transition: transform 0.3s;
+    }
+    &.visible {
+      &:before {
+        transform: scaleX(0);
+        transition: transform 1s;
       }
     }
   }
