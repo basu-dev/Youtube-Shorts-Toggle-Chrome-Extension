@@ -11,20 +11,18 @@ const defaultStorage: IStorage = {
 
 const _state = writable(defaultStorage);
 
-(async function () {
+async function loadState() {
     let state = await (chrome.storage.sync.get(defaultStorage) as Promise<IStorage>);
     _state.set(state);
-})();
+}
 
 async function setState(partialState: Partial<IStorage>) {
     let state = await (chrome.storage.sync.get(defaultStorage) as Promise<IStorage>);
     return chrome.storage.sync.set({ ...state, ...partialState });
 }
 
-chrome.storage.sync.onChanged.addListener(async function (evt) {
-    let state = await (chrome.storage.sync.get(defaultStorage) as Promise<IStorage>);
-    _state.set(state);
-});
+loadState();
+chrome.storage.sync.onChanged.addListener(_ => loadState());
 
 export const storage = {
     state: _state,
