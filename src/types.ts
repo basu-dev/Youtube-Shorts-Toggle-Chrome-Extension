@@ -1,10 +1,11 @@
-interface IMessage<TType extends string, TValue> {
+interface IMessage<TType extends string, TValue = undefined> {
     type: TType,
-    value: TValue;
+    value?: TValue;
 }
 
-export type Message = IMessage<'hideShorts', boolean> |
-    IMessage<'log', any>
+export type Message = IMessage<'hideShorts', boolean>
+    | IMessage<'log', any>
+    | IMessage<'reload'>
     ;
 
 export type MessageType = Message['type'];

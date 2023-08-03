@@ -1,3 +1,4 @@
+import { onMessage } from "src/message";
 import { storage } from "src/storage";
 
 const styleID = 'youtube-shorts-toggle-style';
@@ -16,6 +17,8 @@ function toggleShorts(hide: boolean) {
     styleElement.innerHTML = `${youtubeShortsSectionSelector},${youtubeShortsSidebarButtonSelector} { display: none !important; }`;
     document.head.appendChild(styleElement);
 }
+
+onMessage('reload', _ => window.location.reload());
 
 storage.state.subscribe(state => toggleShorts(state.shortsVisible))
 

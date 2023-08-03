@@ -1,12 +1,20 @@
 <script lang="ts">
+  import { sendMessageFromPopup } from "../message";
   import { storage } from "../storage";
 
   const state = storage.state;
+  let reloaded = true;
 
   $: checked = $state.shortsVisible;
 
   function toggleChange(event: any) {
-    storage.set({ shortsVisible: event.target.checked });
+    let checked = event.target.checked;
+    if (!checked) reloaded = false;
+    storage.set({ shortsVisible: checked });
+  }
+
+  function reloadPage() {
+    sendMessageFromPopup({ type: "reload" }, () => (reloaded = true));
   }
 </script>
 
@@ -20,10 +28,12 @@
       <span class="check-handler" />
     </label>
   </div>
-
-  <div class={checked ? "message" : "message visible"}>
-    Please reload the page if you don't see the shorts.
-  </div>
+  {#if !reloaded}
+    <div class={checked ? "message" : "message visible"}>
+      <span>Reload the page if you don't see shorts. </span>
+      <button on:click={reloadPage}>Reload </button>
+    </div>
+  {/if}
 </div>
 
 <style lang="scss">
@@ -43,7 +53,6 @@
   }
 
   .container {
-    min-height: 100px;
     min-width: 300px;
     border-radius: 10px;
     padding: 0.5rem 1rem;
@@ -101,6 +110,23 @@
     position: relative;
     font-size: 0.8rem;
     margin-top: 0.3rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 1px;
+    button {
+      padding: 0.3rem 0.5rem;
+      background: none;
+      border: 1px solid #999;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.1s;
+      &:hover {
+        border-color: $greensea;
+        color: $greensea;
+      }
+    }
     &:before {
       content: "";
       position: absolute;
