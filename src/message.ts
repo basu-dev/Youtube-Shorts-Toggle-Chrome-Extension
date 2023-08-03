@@ -1,4 +1,10 @@
-import type { Message, MessageType, MessageValueFromType } from "./types";
+type IMessage<TType extends string, TValue = undefined> = {
+    type: TType,
+    value?: TValue;
+};
+type Message = IMessage<'reload'>;
+type MessageType = Message['type'];
+type MessageValueFromType<TType extends MessageType> = Extract<Message, { type: TType; }>['value'];
 
 export function sendMessageFromPopup(value: Message, cb?: (response: Message) => void) {
     chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
