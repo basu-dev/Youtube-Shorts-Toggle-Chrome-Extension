@@ -4,6 +4,7 @@ import { storage } from "src/storage";
 const styleID = 'youtube-shorts-toggle-style';
 const youtubeShortsSectionSelector = '[is-shorts],ytd-reel-shelf-renderer';
 const youtubeShortsSidebarButtonSelector = "#endpoint[title='Shorts']";
+const youtubeShortsInMiddleOfVideoSelector = "ytd-video-renderer:has([aria-label='Shorts'])";
 
 function removeStyles() {
     let addedStyle = document.getElementById(styleID);
@@ -14,7 +15,7 @@ function removeStyles() {
 function addStyles() {
     const styleElement = document.createElement('style');
     styleElement.id = styleID;
-    styleElement.innerHTML = `${youtubeShortsSectionSelector},${youtubeShortsSidebarButtonSelector} { display: none !important; }`;
+    styleElement.innerHTML = `${youtubeShortsSectionSelector},${youtubeShortsSidebarButtonSelector},${youtubeShortsInMiddleOfVideoSelector} { display: none !important; }`;
     document.head.appendChild(styleElement);
 }
 
